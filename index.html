@@ -10,7 +10,7 @@
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
   <!-- Don't use this in production: -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
@@ -21,6 +21,17 @@
     const se = new Audio('tada.wav');
     const App = () => {
       const [verified, setVerified] = React.useState(false);
+      React.useEffect(()=>{
+        turnstile.ready(()=>
+          turnstile.render("#html_element", {
+            sitekey: key,
+            callback: ()=>{
+              se.play();
+              setVerified(true);
+            }
+          })
+        )
+      },[])
       return (
         <div>
           {verified ? (
@@ -53,11 +64,7 @@
                     width: '300px',
                     marginTop: '20px'
                   }}>
-                    <div
-                      className="cf-turnstile"
-                      data-sitekey={key}
-                      data-callback="setVerified(true)"
-                    />
+                    <div id="html_element"/>
                   </div>
                 </div>
               </div>
