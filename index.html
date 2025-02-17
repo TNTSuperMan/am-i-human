@@ -20,13 +20,15 @@
     const App = () => {
       const [verified, setVerified] = React.useState(false);
       React.useEffect(() => {
-        grecaptcha.render('html_element', {
-          sitekey: '6Le1Q-4aAAAAAPxiA-8un2vTzU5PoCw9-wWwD7Wr',
-          callback: (response) => {
-            se.play();
-            setVerified(true);
-          }
-        });
+        turnstile.ready(()=>{
+          turnstile.render("#html_element", {
+            sitekey: key,
+            callback: () => {              
+              se.play();
+              setVerified(true);
+            }
+          })
+        })
       }, []);
       return (
         <div>
