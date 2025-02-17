@@ -21,17 +21,6 @@
     const se = new Audio('tada.wav');
     const App = () => {
       const [verified, setVerified] = React.useState(false);
-      React.useEffect(() => {
-        turnstile.ready(()=>{
-          turnstile.render("#html_element", {
-            sitekey: key,
-            callback: () => {              
-              se.play();
-              setVerified(true);
-            }
-          })
-        })
-      }, []);
       return (
         <div>
           {verified ? (
